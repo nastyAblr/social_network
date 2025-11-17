@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Коментарий</title>
+</head>
+<body>
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Добавить комментарий</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
+
+<a href="{% url 'profile' request.user.username %}">Назад в профиль</a>
+
+{% endblock %}
+
+</body>
+</html>
