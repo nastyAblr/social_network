@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма профиля</title>
+</head>
+<body>
+    <h1>Форма UserProfile</h1>
+    <h1>Редактирование профиля</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+
+    <ul>
+        {% for item in menu %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" width="150">
+    {% else %}
+        <p>Фото отсутствует</p>
+    {% endif %}
+
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+
+</body>
+</html>
+
