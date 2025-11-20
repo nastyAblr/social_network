@@ -42,6 +42,9 @@ def profile_view(request, username):
         "is_friend": is_friend,
     })
 
+def home(request):
+    return render(request, 'index.html')
+
 
 @login_required
 def user_profile_form_view(request):

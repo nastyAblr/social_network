@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>
-        Главная страница
-    </title>
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
 
-</head>
-<body>
-<div align="left">
-    <h1>
-        <i>
-            Главная страница нашей социальной сети
-        </i>
-    </h1>
+<h2>Добро пожаловать!</h2>
+
+<div class="card p-4 shadow-sm mt-3">
+    <p>Это главная страница вашей социальной сети.</p>
+
+    <a class="btn btn-primary mt-2" href="/posts/">Перейти к постам</a>
 </div>
 
-</body>
-</html>
+{% endblock %}

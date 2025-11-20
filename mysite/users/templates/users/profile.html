@@ -1,106 +1,29 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Профиль</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Профиль {{ profile.user.username }}{% endblock %}
+{% block content %}
 
-<h1>Профиль пользователя {{ user_profile.user.username }}</h1>
+<div class="card shadow-sm p-4">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" class="img-fluid rounded-circle mb-3" alt="Фото">
+            {% else %}
+                <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle mb-3">
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <h3>{{ profile.user.username }}</h3>
+            <p>{{ profile.description|default:"Описание отсутствует" }}</p>
 
-{% if user_profile.profile_picture %}
-    <img src="{{ user_profile.profile_picture.url }}" width="150">
-{% else %}
-    <p>Фото отсутствует</p>
-{% endif %}
+            <p class="text-muted">
+                Дата регистрации: {{ profile.registration_date|date:"d.m.Y H:i" }}
+            </p>
 
-<p><b>Описание:</b> {{ user_profile.description }}</p>
-<p><b>Дата регистрации:</b> {{ user_profile.registration_date }}</p>
+            {% if user == profile.user %}
+                <a href="/profile/edit/" class="btn btn-primary">Редактировать профиль</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-<hr>
-
-{# ================ ЛОГИКА ДРУЖБЫ ================= #}
-
-{% if request.user == user_profile.user %}
-    <p><i>Это ваш профиль.</i></p>
-
-{% else %}
-
-    {% if is_friend %}
-        <p><b>Вы уже друзья</b></p>
-
-    {% elif outgoing_request %}
-        <p>Заявка уже отправлена</p>
-
-    {% elif incoming_request %}
-        <p>Этот пользователь отправил вам заявку</p>
-        <a href="{% url 'accept_friend_request' incoming_request.id %}">
-            Принять заявку
-        </a>
-
-    {% else %}
-        <a href="{% url 'send_friend_request' user_profile.user.id %}">
-            Добавить в друзья
-        </a>
-    {% endif %}
-
-{% endif %}
-
-<hr>
-
-{# ================ СПИСОК ДРУЗЕЙ ================= #}
-
-<h2>Друзья</h2>
-<ul>
-    {% for friend in user_profile.friends.all %}
-        <li>
-            <a href="{% url 'profile' friend.user.username %}">
-                {{ friend.user.username }}
-            </a>
-        </li>
-    {% empty %}
-        <li>Нет друзей</li>
-    {% endfor %}
-</ul>
-
-<hr>
-
-{# ================ ВХОДЯЩИЕ ЗАЯВКИ ================= #}
-
-{% if request.user == user_profile.user %}
-<h2>Входящие заявки в друзья</h2>
-<ul>
-    {% for req in incoming_requests %}
-        <li>
-            {{ req.from_user.username }}
-            <a href="{% url 'accept_friend_request' req.id %}">Принять</a>
-        </li>
-    {% empty %}
-        <li>Нет входящих заявок</li>
-    {% endfor %}
-</ul>
-
-<hr>
-
-{# ================ ИСХОДЯЩИЕ ЗАЯВКИ ================= #}
-
-<h2>Исходящие заявки</h2>
-<ul>
-    {% for req in outgoing_requests %}
-        <li>
-            {{ req.to_user.username }} — заявка отправлена
-        </li>
-    {% empty %}
-        <li>Нет исходящих заявок</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-<hr>
-
-{% if request.user == user_profile.user %}
-    <a href="{% url 'user_profile_form' %}">Редактировать профиль</a>
-{% endif %}
-
-</body>
-</html>
+{% endblock %}

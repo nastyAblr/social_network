@@ -17,3 +17,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        verbose_name = 'Профиль пользователя'
+        verbose_name_plural = 'Профиль пользователя'
+        ordering = ['registration_date']

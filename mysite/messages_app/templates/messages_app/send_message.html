@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Отправить сообщение{% endblock %}
+{% block content %}
+
+<h2>Отправить сообщение {{ recipient.username }}</h2>
+
+<form method="post" class="card p-3 shadow-sm">
+    {% csrf_token %}
+    <textarea class="form-control" name="content" rows="4" placeholder="Ваше сообщение..."></textarea>
+    <button class="btn btn-primary mt-3">Отправить</button>
+</form>
+
+{% endblock %}
