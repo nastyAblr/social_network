@@ -1,26 +1,30 @@
 {% extends "base.html" %}
-{% block title %}Профиль {{ profile.user.username }}{% endblock %}
+{% block title %}Профиль {{ user_profile.user.username }}{% endblock %}
 {% block content %}
 
 <div class="card shadow-sm p-4">
     <div class="row">
         <div class="col-md-3 text-center">
-            {% if profile.profile_picture %}
-                <img src="{{ profile.profile_picture.url }}" class="img-fluid rounded-circle mb-3" alt="Фото">
+            {% if user_profile.profile_picture %}
+                <img src="{{ user_profile.profile_picture.url }}" class="img-fluid rounded-circle mb-3" alt="Фото">
             {% else %}
                 <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle mb-3">
             {% endif %}
         </div>
+
         <div class="col-md-9">
-            <h3>{{ profile.user.username }}</h3>
-            <p>{{ profile.description|default:"Описание отсутствует" }}</p>
+            <h3>{{ user_profile.user.username }}</h3>
+
+            <p>{{ user_profile.description|default:"Описание отсутствует" }}</p>
 
             <p class="text-muted">
-                Дата регистрации: {{ profile.registration_date|date:"d.m.Y H:i" }}
+                Дата регистрации: {{ user_profile.registration_date|date:"d.m.Y H:i" }}
             </p>
 
-            {% if user == profile.user %}
-                <a href="/profile/edit/" class="btn btn-primary">Редактировать профиль</a>
+            {% if user == user_profile.user %}
+                <a href="{% url 'user_profile_form' %}" class="btn btn-primary">
+                    Редактировать профиль
+                </a>
             {% endif %}
         </div>
     </div>

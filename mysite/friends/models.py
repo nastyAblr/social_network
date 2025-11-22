@@ -12,7 +12,7 @@ class FriendRequest(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"From {self.from_user.username} to {self.to_user.username}"
+        return f"From {self.from_user} to {self.to_user}"
 
     class Meta:
         verbose_name = 'Запрос другу'

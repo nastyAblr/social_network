@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+<h2>Все пользователи</h2>
+
+<div class="list-group mt-3">
+    {% for u in users %}
+        <a class="list-group-item" href="/profile/{{ u.username }}/">
+            {{ u.username }}
+        </a>
+    {% empty %}
+        <p>Пока нет ни одного пользователя.</p>
+    {% endfor %}
+</div>
+{% endblock %}

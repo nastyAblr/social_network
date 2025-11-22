@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+
+<div class="card shadow-sm p-4 mb-4">
+    <h2>{{ post.title }}</h2>
+    <p class="text-muted">
+        Автор:
+        <a href="{% url 'profile' post.user.username %}">
+            {{ post.user.username }}
+        </a>
+        • {{ post.created_at|date:"d.m.Y H:i" }}
+    </p>
+    <p>{{ post.content }}</p>
+
+    {% if post.user == request.user %}
+    <a href="{% url 'edit_post' post.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Удалить</a>
+    {% endif %}
+</div>
+
+
+<h4>Комментарии</h4>
+
+{% for comment in comments %}
+<div class="card p-3 mb-2 shadow-sm">
+    <strong>
+        <a href="{% url 'profile' comment.user.username %}">
+            {{ comment.user.username }}
+        </a>
+    </strong>
+    <p class="mb-1">{{ comment.text }}</p>
+    <p class="text-muted small">{{ comment.created_at|date:"d.m.Y H:i" }}</p>
+</div>
+{% empty %}
+<p>Комментариев пока нет.</p>
+{% endfor %}
+
+
+{% if user.is_authenticated %}
+<h4 class="mt-4">Добавить комментарий</h4>
+<form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button class="btn btn-primary">Отправить</button>
+</form>
+{% else %}
+<p class="text-muted mt-3">Авторизуйтесь, чтобы оставить комментарий.</p>
+{% endif %}
+
+{% endblock %}
